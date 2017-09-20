@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/false_button"/>
 
-        </LinearLayout> 
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
