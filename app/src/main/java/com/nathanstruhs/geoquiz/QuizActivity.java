@@ -53,7 +53,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(true);
-                set_next_prev_button_clickable(false);
+                set_true_false_button_clickable(false);
             }
         });
 
@@ -62,7 +62,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
-                set_next_prev_button_clickable(false);
+                set_true_false_button_clickable(false);
             }
         });
 
@@ -72,7 +72,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
-                set_next_prev_button_clickable(true);
+                set_true_false_button_clickable(true);
             }
         });
 
@@ -136,7 +136,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy() called");
     }
 
-    private void set_next_prev_button_clickable(boolean is_clickable) {
+    private void set_true_false_button_clickable(boolean is_clickable) {
         mTrueButton.setEnabled(is_clickable);
         mFalseButton.setEnabled(is_clickable);
     }
