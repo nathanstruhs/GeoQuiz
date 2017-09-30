@@ -35,6 +35,7 @@ public class QuizActivity extends AppCompatActivity {
     private int mCurrentIndex = 0;
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
+    private float mCorrectAnswerCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,9 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 checkAnswer(true);
                 set_true_false_button_clickable(false);
+                if (mCurrentIndex == (mQuestionBank.length - 1)) {
+                    grade_quiz(mCorrectAnswerCount);
+                }
             }
         });
 
@@ -63,6 +67,9 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 checkAnswer(false);
                 set_true_false_button_clickable(false);
+                if (mCurrentIndex == (mQuestionBank.length - 1)) {
+                    grade_quiz(mCorrectAnswerCount);
+                }
             }
         });
 
@@ -71,6 +78,9 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                if (mCurrentIndex == 0) {
+                    mCorrectAnswerCount = 0;
+                }
                 updateQuestion();
                 set_true_false_button_clickable(true);
             }
@@ -91,12 +101,19 @@ public class QuizActivity extends AppCompatActivity {
 
         if (userPressedTrue == answerIsTrue) {
             messageResId = R.string.correct_toast;
+            mCorrectAnswerCount += 1;
         } else {
             messageResId = R.string.incorrect_toast;
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    private void grade_quiz(float quantity_correct_answers) {
+        float score = (quantity_correct_answers / mQuestionBank.length) * 100;
+        String output = String.format("Your score: %.0f%%", score);
+        Toast.makeText(this, output, Toast.LENGTH_SHORT).show();
     }
 
     @Override
