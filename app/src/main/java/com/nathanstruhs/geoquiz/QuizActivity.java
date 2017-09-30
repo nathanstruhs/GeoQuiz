@@ -34,12 +34,17 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
     private static final String TAG = "QuizActivity";
+    private static final String KEY_INDEX = "index";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate(Bunlde) called");
+        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
+
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
 
@@ -48,6 +53,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(true);
+                set_next_prev_button_clickable(false);
             }
         });
 
@@ -56,6 +62,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
+                set_next_prev_button_clickable(false);
             }
         });
 
@@ -65,6 +72,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
+                set_next_prev_button_clickable(true);
             }
         });
 
@@ -110,6 +118,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() called");
@@ -119,5 +134,10 @@ public class QuizActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy() called");
+    }
+
+    private void set_next_prev_button_clickable(boolean is_clickable) {
+        mTrueButton.setEnabled(is_clickable);
+        mFalseButton.setEnabled(is_clickable);
     }
 }
