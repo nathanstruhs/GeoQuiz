@@ -37,6 +37,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
     private boolean mIsCheater;
+    public static final String KEY_CHEAT = "cheater";
     public static final String KEY_INDEX = "index";
     private static final String TAG = "QuizActivity";
     private static final int REQUEST_CODE_CHEAT = 0;
@@ -51,6 +52,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mIsCheater = savedInstanceState.getBoolean(KEY_CHEAT, false);
         }
 
         mTrueButton = (Button) findViewById(R.id.true_button);
@@ -151,6 +153,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putBoolean(KEY_CHEAT, mIsCheater);
     }
 
     @Override
