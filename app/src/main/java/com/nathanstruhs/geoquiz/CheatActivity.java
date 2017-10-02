@@ -51,7 +51,7 @@ public class CheatActivity extends AppCompatActivity {
                 setAnswerShownResult(true);
             }
         });
-    }
+    };git
 
     private void setAnswerShownResult(boolean isAnswerShown) {
         Intent data = new Intent();
