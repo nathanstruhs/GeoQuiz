@@ -21,10 +21,8 @@ public class CheatActivity extends AppCompatActivity {
             "com.nathanstruhs.geoquiz.answer_shown";
 
     private boolean mAnswerIsTrue;
-
     private TextView mAnswerTextView;
     private Button mShowAnswerButton;
-
     private TextView mApiLevelTextView;
 
     public static Intent newIntent(Context packageContext, boolean answerIsTrue) {

@@ -26,6 +26,10 @@ public class QuizActivity extends AppCompatActivity {
     private Button mCheatButton;
     private TextView mQuestionTextView;
 
+    private TextView mCheatTokenView;
+    public static final String TOKEN_QUANTITY = "tokens";
+    private int mCheatTokens = 3;
+
     private Question[] mQuestionBank = new Question[] {
             new Question(R.string.question_australia, true),
             new Question(R.string.question_oceans, true),
@@ -47,11 +51,14 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
 
-        mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
-
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mCheatTokens = savedInstanceState.getInt(TOKEN_QUANTITY, 3);
         }
+
+        mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
+        mCheatTokenView = (TextView) findViewById(R.id.cheat_token_view);
+        mCheatTokenView.setText("Cheat tokens remaining: " + mCheatTokens);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -69,10 +76,15 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCheatTokens--;
+                mCheatTokenView.setText("Cheat tokens remaining: " + mCheatTokens);
+                if (mCheatTokens < 1) {
+                    mCheatButton.setVisibility(View.GONE);
+                }
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
                 Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
@@ -151,6 +163,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putInt(TOKEN_QUANTITY, mCheatTokens);
     }
 
     @Override
